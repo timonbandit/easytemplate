@@ -1,0 +1,531 @@
+/*Responsive start*/
+/*UltraLarge screens start*/
+@media(min-width: 2000px) {
+	.main-banner {
+		background: url("/assets/img/header_bg.jpg");
+	}
+	.warranty {
+		background: url("/assets/img/sherlock_warranty.png") no-repeat left bottom,url("/assets/img/warranty_bg.jpg") no-repeat center, @color1;
+	}
+}
+/*UltraLarge screens stop*/
+/*Large screens*/
+@media (min-width: 1800px) {
+	.sherlock_main_right {
+		display: block !important;
+	}
+	.tariffs .sherlock_tariffs {
+		display: block;
+	}
+	.build {
+		background: url("/assets/img/build_a_site.png") no-repeat bottom left, url("/assets/img/green_arrow_bg.png") no-repeat 65% center, @color1;
+	}
+}
+/*Laptops*/
+@media (min-width: 1230px) {
+	.container {
+		width: 1230px;
+	}
+}
+
+/*Tablet*/
+@media (min-width: (@screen-sm + 1)) and (max-width: @screen-ipad) {
+	/*Header Start*/
+	.navbar {
+		padding-bottom: 19px;
+		.navbar-brand {
+			padding: 0 15px;
+			.tagline {
+				text-align: left;
+			}
+		}
+
+		.navbar-collapse {
+			padding-top: 24px;
+		}
+
+		.header_phone {
+			padding-left: 0;
+		}
+		.lang_switcher {
+			left: 6px;
+		}
+		.navbar-nav {
+			float: right;
+			margin-left: -35px;
+			.chat {
+				margin: 0;
+				a {
+					margin: -2px 4px 0 0;
+					line-height: 1;
+				}
+			}
+			a {
+				padding: 5px;
+			}
+			.enter {
+				margin-left: 5px;
+			}
+
+		}
+		&.fixed {
+			.navbar-nav .enter {
+				margin-left: 0;
+			}
+			.header_phone {
+				margin-left: 0;
+			}
+		}
+	}
+
+	.main-banner .sherlock_main img {
+		margin-left: -128px;
+	}
+
+	/*Header Stop*/
+	/*Features start*/
+	.features h4 {
+		margin: 26px 0 0 8px;
+	}
+
+	/*Features stop*/
+	/*Tarrifs start*/
+	.tariffs .tab-panel {
+		.row {
+			padding: 0;
+		}
+		.col-md-4 {
+			padding: 0 5px;
+			z-index: 10;
+		}
+		.tariff {
+			padding: 7px;
+			&.pro {
+				.name {
+					.bestseller {
+						top: 13px;
+						left: 32px;
+						padding: 4px;
+						width: 68px;
+						height: 20px;
+						&:before {
+							right: -7px;
+							top: 5px;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/*Tarrifs stop*/
+
+	/*Rest Start*/
+	.partners {
+		height: auto;
+		.partner {
+			margin: 23px 12px;
+		}
+	}
+
+	.reviews .review-texts {
+		min-height: 135px;
+	}
+
+	.build {
+		background: url("/assets/img/green_arrow_bg.png") no-repeat 75% center, #97b254;
+		padding: 27px 0;
+	}
+
+	/*Rest Stop*/
+}
+
+/*Tablet Stop*/
+/*Phone Start*/
+@media (max-width: @screen-sm) {
+	h2 {
+		font-size: 3rem;
+	}
+
+	/*Header Start*/
+	.navbar {
+		z-index: 10;
+		background: @text-white;
+		padding-bottom: 0;
+		.navbar-brand, &.fixed .navbar-brand {
+			height: auto;
+			padding: 0 5px;
+			width: 80%;
+			img {
+				max-width: 100%;
+			}
+			.tagline {
+				text-align: left;
+			}
+		}
+		.lang_switcher {
+			float: right;
+			position: static;
+		}
+		&.fixed {
+			padding-bottom: 0;
+			.navbar-toggle {
+				border: 1px solid @text-white;
+				.icon-bar {
+					background: @text-white;
+				}
+			}
+			.lang_switcher_wrapper {
+				display: block;
+			}
+			.header_phone {
+				padding: 4px 0 0 17px;
+				margin-left: 0;
+				a {
+					font-size: 2.1rem;
+					line-height: 2.1;
+				}
+			}
+			.navbar-nav {
+				text-align: center;
+				margin: 45px 0 0 0;
+				.enter {
+					margin-left: 0;
+				}
+			}
+		}
+		.navbar-collapse {
+			padding: 0 5px;
+			margin-top: 10px;
+			border: none;
+			.box-shadow(none);
+		}
+		.lang-switcher {
+			margin-left: 0;
+		}
+		.navbar-nav {
+			text-align: center;
+			margin: 45px 0 0 0;
+			.enter {
+				margin: 0 0 10px 0;
+			}
+		}
+	}
+
+	.main-banner {
+		padding: 0 0 15px 0;
+		background-size: cover;
+		.bubble {
+			margin: 10px 0 0 0;
+			padding: 0 5px;
+			&:before {
+				display: none;
+			}
+			h1 {
+				font-size: 4.5rem;
+			}
+		}
+		.header_advantages {
+			margin-top: 20px;
+			padding: 0 10px;
+			h6 {
+				margin-left: 43px;
+				font-size: 1.8rem;
+			}
+			.col-md-4 {
+				margin-bottom: 10px;
+			}
+		}
+		.cta {
+			.begin {
+				display: block;
+			}
+			.currency {
+				top: 100px;
+				left: 18px;
+			}
+		}
+	}
+
+	/*Header Stop*/
+	/*Features start*/
+	.features {
+		padding: 20px 0;
+		.col-xs-12:nth-child(1) {
+			h4 {
+				margin-left: 20px;
+				margin-bottom: 22px;
+			}
+		}
+		h4 {
+			font-size: 2.1rem;
+			margin: 0 0 22px 25px;
+
+		}
+		.icon {
+			zoom: 0.7;
+		}
+	}
+
+	/*Features stop*/
+	/*Tariffs start*/
+	.tariffs {
+		h2 {
+			margin: 20px 0;
+		}
+		.tab-panel {
+			padding: 20px 0;
+			.row {
+				padding: 0;
+			}
+			.tariff {
+				&.pro {
+					margin: 15px 0;
+					.name {
+						.bestseller {
+							width: 70px;
+							height: 21px;
+							padding: 5px;
+							top: 42px;
+							left: 17px;
+							&:before {
+								top: 6px;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/*Tariffs stop*/
+	/*CMS Start*/
+	.cms {
+		h2 {
+			margin: 20px 0;
+		}
+		.cms-row {
+			text-align: center;
+			img {
+				max-width: 45%;
+				margin: 0 2%;
+			}
+		}
+		/*
+		&.modx {
+			width: 45%;
+			height: 59px;
+			background-size: 492%;
+		}
+		&.bitrix {
+			background-position-x: -125px;
+			width: 45%;
+			height: 29px;
+			background-size: 411%;
+		}
+		&.presta {
+			width: 45%;
+			height: 35px;
+			background-position-x: -839px;
+			background-size: 400%;
+		}
+		&.dle {
+			width: 45%;
+			height: 35px;
+			background-position-x: -1108px;
+			background-size: 450%;
+		}
+		&.umi {
+			background-position-y: -171px;
+			width: 45%;
+			height: 55px;
+			background-size: 439%;
+		}
+		&.opencart {
+			background-position: -148px -37px;
+			width: 45%;
+			height: 26px;
+			background-size: 439%;
+		}
+		&.netcat {
+			background-position: -164px -74px;
+			width: 22%;
+			height: 57px;
+			background-size: 998%;
+		}
+		&.drupal {
+			background-position: -260px -79px;
+			width: 22%;
+			height: 67px;
+			background-size: 1130%;
+		}
+		*/
+	}
+
+	/*CMS Stop*/
+	/*Rest start*/
+	.advantages {
+		background: url("/assets/img/advantages_bg.jpg") repeat-y;
+		background-size: initial;
+		h2 {
+			margin: 20px 0;
+		}
+		.row {
+			margin-bottom: 0;
+		}
+		.action {
+			margin-top: 20px;
+		}
+	}
+
+	.new_level {
+		padding: 20px 0;
+		h2 {
+			margin: 0 0 20px 0;
+			font-size: 3rem;
+		}
+		.description {
+			margin-bottom: 20px;
+		}
+		.buttons {
+			margin-top: 20px;
+			.trial {
+				font-size: 1.6rem;
+			}
+		}
+	}
+
+	.warranty {
+		background: @color1;
+		padding: 20px 0;
+		h2 {
+			margin: 0 0 20px 0;
+		}
+		.item {
+			border-radius: 40px;
+			padding: 10px 18px;
+			margin-bottom: 11px;
+			.icon {
+				&.cashback {
+					margin: 7px 7px 0 0;
+				}
+			}
+		}
+	}
+
+	.partners {
+		padding: 20px 0;
+		height: auto;
+		h2 {
+			margin: 0 0 20px 0;
+		}
+		.partner {
+			margin: 5px;
+			width: 45%;
+			img {
+				max-width: 100%;
+			}
+		}
+	}
+
+	.payments {
+		padding: 20px 0;
+		h2 {
+			margin: 0 0 20px 0;
+		}
+		a {
+			display: inline-block;
+			max-width: 115px;
+			img {
+				max-width: 100%;
+			}
+		}
+	}
+
+	.reviews {
+		padding: 20px 0;
+		h2 {
+			margin: 0 0 20px 0;
+		}
+		.review-texts {
+			min-height: 155px;
+		}
+	}
+
+	.build {
+		padding: 20px 0;
+		background: @color1;
+		.nopadding {
+			padding: 0 15px;
+		}
+		.description {
+			height: 55px;
+		}
+		.price {
+			text-align: center;
+		}
+	}
+
+	/*Rest stop*/
+	/*Footer start*/
+	.footer {
+		text-align: center;
+		.logo .tagline {
+			text-align: center;
+			margin-top: 10px;
+		}
+		&:before {
+			display: none;
+		}
+		.contacts {
+			margin-top: 20px;
+		}
+		.terms {
+			margin-top: 20px;
+		}
+	}
+
+	.footer_bottom {
+		padding: 20px 0;
+		text-align: center;
+		.pluso {
+			margin: 12px 0;
+			display: block;
+			text-align: center;
+		}
+	}
+
+	/*Footer stop*/
+	/*Pages start*/
+	.page-features {
+		.title-panel .bullet-point {
+			min-height: 40px;
+		}
+		.col-md-6 {
+			width: 100%;
+		}
+	}
+	.page-help .btn-help {
+		height: auto;
+	}
+
+	/*Pages stop*/
+	/*Phone Stop*/
+	/*small phone start*/
+	@media (max-width: 420px) {
+		.navbar .lang_switcher {
+			position: absolute;
+		}
+	}
+	/*small phone stop*/
+	/*Overrides bootstrap start*/
+	@media (min-width: 769px) {
+		.navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+			margin-left: 0;
+		}
+	}
+}
+/*Overrides bootstrap stop*/
+
+
+/*Responsive stop*/

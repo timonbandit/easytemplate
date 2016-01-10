@@ -1,0 +1,102 @@
+footer {
+	background: @text-gray;
+	position: relative;
+
+}
+.footer {
+	padding: 33px 0;
+	color: @text-white;
+	font-size: 1.5rem;
+	font-weight: 300;
+	&:before {
+		content: url('/assets/img/sherlock_footer.png');
+		position: absolute;
+		right: 0;
+		bottom: 0;
+
+	}
+	.left-column {
+		position: relative;
+		height: 100%;
+	}
+	.logo {
+		.tagline {
+			display: block;
+			margin-top: 16px;
+			color: @text-white;
+			letter-spacing: -0.4px;
+			text-align: left;
+			text-decoration: none;
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+	.contacts {
+		margin-top: 51px;
+		.schedule, .phone, .emaiд {
+			display: block;
+		}
+		.phone {
+			font-size: 2.4rem;
+			margin-top: 4px;
+			font-weight: 700;
+		}
+		.email {
+			a {
+				color: @text-white;
+			}
+		}
+	}
+	.terms {
+		font-size: 1.4rem;
+		margin-top: 58px;
+		a {
+			color: @text-white;
+			text-decoration: underline;
+			&.first {
+				border-right: 1px solid @text-white;
+				padding: 0 5px 0 0;
+			}
+		}
+	}
+	.footer_links {
+		padding-top: 31px;
+		.header {
+			font-size: 1.9rem;
+			font-weight: 700;
+			margin-bottom: 23px;
+			display: block;
+		}
+		ul {
+			list-style-type: none;
+			padding-left: 0;
+			li {
+				margin-bottom: 14px;
+				a {
+					color: @text-white;
+					text-decoration: underline;
+					&:hover {
+						text-decoration: none;
+					}
+				}
+			}
+		}
+	}
+}
+.footer_bottom {
+	border-top: 1px solid @text-white;
+	padding: 29px 0;
+	.share {
+		color: @text-white;
+		text-decoration: underline;
+		font-size: 1.4rem;
+		display: inline-block;
+		margin-right: 25px;
+	}
+	.pluso {
+		vertical-align: bottom;
+		margin-right: 25px;
+
+	}
+}
