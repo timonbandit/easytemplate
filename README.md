@@ -1,2 +1,2 @@
-Quick start template based on BoilerPlate + Bootstrap+Less+Gulp
+Quick start template based on BoilerPlate + Bootstrap + Less + Gulp
 =============
