@@ -19,7 +19,7 @@ var path = {css: 'src/css',
 
  gulp.task('clean', function(cb) {
 	del(path.css + '/main.css');
-	del(path.production + 'css/*');
+	del(path.production + '/css/*');
 	cb();
 
  });
