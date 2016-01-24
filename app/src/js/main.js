@@ -19,5 +19,3 @@ $(document).ready(function () {
 		});
 	}	
 });
-
-

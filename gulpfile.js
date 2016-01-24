@@ -6,18 +6,27 @@ var uglify = require('gulp-uglify');
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var optipng = require('imagemin-optipng');
+var browserSync = require('browser-sync').create();
+
 var del = require('del');
 
-var path = {css: 'src/css', 
-			less: 'src/less', 
-			js: 'src/js', 
-			fonts: 'src/fonts', 
-			images: 'src/img', 
-			production: 'build'};
+var path = {css: 'app/src/css', 
+			less: 'app/src/less', 
+			js: 'app/src/js', 
+			fonts: 'app/src/fonts', 
+			images: 'app/src/img', 
+			production: 'app/build'};
 
 //clean everything
 
  gulp.task('clean', function(cb) {
+	del(path.css + '/main.css');
+	del(path.production + '/css/*');
+	cb();
+
+ });
+
+  gulp.task('cleanFull', function(cb) {
 	del(path.css + '/main.css');
 	del(path.production + '/css/*');
 	cb();
@@ -37,25 +46,32 @@ gulp.task('compressCss', ['less'], function() {
 	return gulp.src(path.css + '/*.css')
 		.pipe(concat('style.css'))
 		.pipe(csso())
-		.pipe(gulp.dest(path.production + '/css'));
+		.pipe(gulp.dest(path.production + '/css'))
+		.pipe(browserSync.stream());
 });
 
-
-/*
 //copy fonts
 gulp.task('copyFonts', function () {
 	return gulp.src(path.fonts + '/*')
 		.pipe(gulp.dest(path.production + "/fonts"));
 });
-*/
+
 //concat and uglify js
 gulp.task('compressJs', function () {
 	return gulp.src([path.js + '/vendor/*.js', path.js + '/*.js'])
 		.pipe(concat('main.js'))
 		.pipe(uglify())
-		.pipe(gulp.dest(path.production + '/js'));
+		.pipe(gulp.dest(path.production + '/js'))
+		.pipe(browserSync.stream());
 });
-/*
+
+// create a task that ensures the `js` task is complete before
+// reloading browsers
+gulp.task('js-watch', ['compressJs'], browserSync.reload);
+
+
+
+
 //compress images
 gulp.task('compressImg', function () {
 	return gulp.src(path.images + '/*')
@@ -67,8 +83,23 @@ gulp.task('compressImg', function () {
 		}))
 		.pipe(gulp.dest(path.production + '/img'));
 });
-//default
-gulp.task('default', ['clean', 'less', 'compressCss', 'copyFonts', 'compressJs', 'compressImg']);
-*/
 
+// Static Server + watching less/html files
+gulp.task('serve', ['compressCss','compressJs'], function() {
+
+    browserSync.init({
+        server: "./app"
+    });
+
+    gulp.watch(path.less + '/*.less', ['compressCss']);    
+    gulp.watch(path.js + '/*.js', ['js-watch']);
+    gulp.watch("app/*.html").on('change', browserSync.reload);
+});
+
+
+
+//Full build task - run 'grunt full'
+gulp.task('full', ['cleanFull', 'compressCss', 'copyFonts', 'compressJs', 'compressImg']);
+
+//default
 gulp.task('default',['compressCss', 'compressJs']);
