@@ -6,9 +6,18 @@ var uglify = require('gulp-uglify');
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var optipng = require('imagemin-optipng');
+var plumber = require('gulp-plumber');
 var browserSync = require('browser-sync').create();
 
 var del = require('del');
+
+
+// error function for plumber
+var onError = function (err) { 
+  console.log(err);
+  this.emit('end');
+};
+
 
 var path = {css: 'app/src/css', 
 			less: 'app/src/less', 
@@ -28,7 +37,7 @@ var path = {css: 'app/src/css',
 
   gulp.task('cleanFull', function(cb) {
 	del(path.css + '/main.css');
-	del(path.production + '/css/*');
+	del(path.production + '/*');
 	cb();
 
  });
@@ -37,6 +46,7 @@ var path = {css: 'app/src/css',
 gulp.task('less', ['clean'], function() {
 
 	return gulp.src(path.less + '/main.less')
+	 	.pipe(plumber({ errorHandler: onError }))
 		.pipe(less())		
 		.pipe(gulp.dest(path.css));
 });
@@ -47,7 +57,7 @@ gulp.task('compressCss', ['less'], function() {
 		.pipe(concat('style.css'))
 		.pipe(csso())
 		.pipe(gulp.dest(path.production + '/css'))
-		.pipe(browserSync.stream());
+		.pipe(browserSync.reload({stream: true}));
 });
 
 //copy fonts
