@@ -8,6 +8,7 @@ var pngquant = require('imagemin-pngquant');
 var optipng = require('imagemin-optipng');
 var plumber = require('gulp-plumber');
 var browserSync = require('browser-sync').create();
+var scp = require('gulp-scp2');
 
 var del = require('del');
 
@@ -18,7 +19,7 @@ var onError = function (err) {
   this.emit('end');
 };
 
-
+//Path
 var path = {css: 'app/src/css', 
 			less: 'app/src/less', 
 			js: 'app/src/js', 
@@ -26,7 +27,7 @@ var path = {css: 'app/src/css',
 			images: 'app/src/img', 
 			production: 'app/build'};
 
-//clean everything
+//Clean for development purposes
 
  gulp.task('clean', function(cb) {
 	del(path.css + '/main.css');
@@ -34,7 +35,7 @@ var path = {css: 'app/src/css',
 	cb();
 
  });
-
+//Clean all production folder
   gulp.task('cleanFull', function(cb) {
 	del(path.css + '/main.css');
 	del(path.production + '/*');
@@ -42,7 +43,7 @@ var path = {css: 'app/src/css',
 
  });
 
-// compile less
+//Compile less
 gulp.task('less', ['clean'], function() {
 
 	return gulp.src(path.less + '/main.less')
@@ -50,7 +51,7 @@ gulp.task('less', ['clean'], function() {
 		.pipe(less())		
 		.pipe(gulp.dest(path.css));
 });
-// concat and compress css
+//Concat and compress css
 gulp.task('compressCss', ['less'], function() {
 
 	return gulp.src(path.css + '/*.css')
@@ -60,13 +61,13 @@ gulp.task('compressCss', ['less'], function() {
 		.pipe(browserSync.reload({stream: true}));
 });
 
-//copy fonts
+//Copy fonts
 gulp.task('copyFonts', function () {
 	return gulp.src(path.fonts + '/*')
 		.pipe(gulp.dest(path.production + "/fonts"));
 });
 
-//concat and uglify js
+//Concat and uglify js
 gulp.task('compressJs', function () {
 	return gulp.src([path.js + '/vendor/*.js', path.js + '/*.js'])
 		.pipe(concat('main.js'))
@@ -79,10 +80,7 @@ gulp.task('compressJs', function () {
 // reloading browsers
 gulp.task('js-watch', ['compressJs'], browserSync.reload);
 
-
-
-
-//compress images
+//Compress images
 gulp.task('compressImg', function () {
 	return gulp.src(path.images + '/*')
 		.pipe(imagemin({
@@ -105,7 +103,20 @@ gulp.task('serve', ['compressCss','compressJs'], function() {
     gulp.watch(path.js + '/*.js', ['js-watch']);
     gulp.watch("app/*.html").on('change', browserSync.reload);
 });
+//SSH deployment
+gulp.task('deploy', function() {
+    return gulp.src('app/**/*')
+        .pipe(scp({
+            host: 'hostname.example',
+            port: '22',
+            username: 'user',
+            password: 'pass',
+            dest: '/var/www/website'
 
+        })).on('error', function(err) {
+            console.log(err);
+        });
+});
 
 
 //Full build task - run 'grunt full'
