@@ -1,6 +1,6 @@
 {
   "name": "easytemplate",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Quick start template based on BoilerPlate + Bootstrap + Less + Gulp",
   "main": "index.html",
   "scripts": {
