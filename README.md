@@ -1,6 +1,6 @@
-Quick start template based on BoilerPlate + Bootstrap + Less + Gulp
+Quick start template based on simple BoilerPlate + Bootstrap + Sass + Gulp
 =============
-Easy HTML Sceleton based on BoilerPlate, Bootstrap and Less with Gulp.
+Easy HTML Sceleton based on simple BoilerPlate, Bootstrap and Sass with Gulp.
 
 
 Gulp has 4 main tasks
@@ -9,3 +9,10 @@ Gulp has 4 main tasks
   - `gulp serve` (Task for creating a server with livereload)
   - `gulp full` (Task for full build, include image compression and etc.)
   - `gulp deploy` (For deployment via SSH, you need to set host, login/pass and path in gulpfile.js)
+  
+  Including:
+  - LiveReload
+  - Compressing images (optipng, pngquant)
+  - Compressing JS (uglify)
+  - Compressing CSS (csso)
+  - Vendor prefixes in CSS (autoprefix)

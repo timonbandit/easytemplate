@@ -1,6 +1,6 @@
 html {
 	font-size: 62.5%;
-	color: @text-main;
+	color: $text-main;
 	text-rendering: optimizelegibility;
 	-moz-osx-font-smoothing: grayscale;
 	-moz-font-feature-settings: "liga", "kern";
@@ -10,5 +10,5 @@ html {
 }
 body {
 	font-size: 1.8rem;
-	color: @text-gray;
+	color: $text-gray;
 }
