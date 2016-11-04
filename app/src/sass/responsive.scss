@@ -20,19 +20,19 @@
 
 /*Tablet*/
 
-@media (min-width: (@screen-md - 1)) and (max-width: @screen-ipad) {}
+@media (min-width: ($screen-md - 1)) and (max-width: $screen-ipad) {}
 
 /*Tablet Stop*/
 
 /*Small devices Start*/
 
-@media (min-width: (@screen-sm + 1)) and (max-width: (@screen-md - 1)) {}
+@media (min-width: ($screen-sm + 1)) and (max-width: ($screen-md - 1)) {}
 
 /*Small devices Stop*/
 
 /*Phone Start*/
 
-@media (max-width: @screen-sm) {}
+@media (max-width: $screen-sm) {}
 
 
 /*Pages stop*/
