@@ -1,4 +1,4 @@
-Quick start template based on simple BoilerPlate + Bootstrap + Sass + Gulp
+Quick start template based on simple BoilerPlate + Bootstrap + Sass + Gulp + Babel
 =============
 Easy HTML Sceleton based on simple BoilerPlate, Bootstrap and Sass with Gulp.
 
@@ -16,3 +16,4 @@ Gulp has 4 main tasks
   - Compressing JS (uglify)
   - Compressing CSS (csso)
   - Vendor prefixes in CSS (autoprefix)
+  - Babel
