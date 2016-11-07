@@ -10,6 +10,7 @@ var browserSync = require('browser-sync').create();
 var scp = require('gulp-scp2');
 var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
+var babel = require('gulp-babel');
 
 
 var del = require('del');
@@ -28,6 +29,7 @@ var path = {
   js: 'app/src/js',
   fonts: 'app/src/fonts',
   images: 'app/src/img',
+  tmp: 'app/src/tmp',
   production: 'app/build'
 };
 
@@ -43,6 +45,7 @@ gulp.task('clean', function (cb) {
 gulp.task('cleanFull', function (cb) {
   del(path.css + '/main.css');
   del(path.production + '/*');
+  del(path.tmp + "/*");
   cb();
 
 });
@@ -82,7 +85,12 @@ gulp.task('copyFonts', function () {
 
 //Concat and uglify js
 gulp.task('compressJs', function () {
-  return gulp.src([path.js + '/vendor/*.js', path.js + '/*.js'])
+  gulp.src([path.js + '/vendor/*.es6', path.js + '/*.es6'])
+    .pipe(babel({
+      presets: ['es2015']
+    })).pipe(gulp.dest(path.tmp));
+
+  return gulp.src([path.js + '/vendor/*.js', path.tmp + '/*.js', path.js + '/*.js'])
     .pipe(concat('main.js'))
     .pipe(uglify())
     .pipe(gulp.dest(path.production + '/js'))
@@ -115,7 +123,8 @@ gulp.task('serve', ['compresCss', 'compressJs'], function () {
   });
 
   gulp.watch(path.sass + '/*.scss', ['compresCss']);
-  gulp.watch(path.js + '/*.js', ['js-watch']);
+  gulp.watch([path.js + '/**/*.js', path.js + '/**/*.es6'], ['js-watch']);
+  //gulp.watch(path.js + '/*.es6', ['js-watch']);
   gulp.watch("app/*.html").on('change', browserSync.reload);
 });
 
