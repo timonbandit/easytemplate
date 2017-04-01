@@ -85,13 +85,12 @@ gulp.task('copyFonts', function () {
 
 //Concat and uglify js
 gulp.task('compressJs', function () {
-  gulp.src([path.js + '/vendor/*.es6', path.js + '/*.es6'])
-    .pipe(babel({
-      presets: ['es2015']
-    })).pipe(gulp.dest(path.tmp));
 
   return gulp.src([path.js + '/vendor/*.js', path.tmp + '/*.js', path.js + '/*.js'])
     .pipe(concat('main.js'))
+    .pipe(babel({
+      presets: ['es2015']
+    }))
     .pipe(uglify())
     .pipe(gulp.dest(path.production + '/js'))
     .pipe(browserSync.stream());
