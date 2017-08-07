@@ -11,9 +11,10 @@ var scp = require('gulp-scp2');
 var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var babel = require('gulp-babel');
-var sourcemaps = require('gulp-sourcemaps');
+
 
 var del = require('del');
+
 
 // error function for plumber
 var onError = function (err) {
@@ -51,6 +52,7 @@ gulp.task('cleanFull', function (cb) {
 
 //compile sass
 gulp.task('sass', ['clean'], function () {
+
   return gulp.src(path.sass + '/main.scss')
     .pipe(plumber({
       errorHandler: onError
@@ -59,38 +61,21 @@ gulp.task('sass', ['clean'], function () {
     .pipe(gulp.dest(path.css));
 });
 
-//Concat and compress css for production
+//Concat and compress css
 gulp.task('compresCss', ['sass'], function () {
 
   return gulp.src(path.css + '/*.css')
     .pipe(concat('style.css'))
     .pipe(autoprefixer({
-      browsers: ['defaults', 'ie 9'],
+      browsers: ['>1%', 'ie 9'],
       cascade: false
     }))
     .pipe(csso())
-    .pipe(gulp.dest(path.production + '/css'));
-
-});
-gulp.task('serveCSS', function () {
-  let scss = gulp.src(path.sass + '/main.scss')
-    .pipe(plumber({
-      errorHandler: onError
-    }))
-    .pipe(sourcemaps.init())
-    .pipe(sass())
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest(path.css));
-
-  return gulp.src(path.css + '/*.css')
-    .pipe(concat('style.css'))
     .pipe(gulp.dest(path.production + '/css'))
     .pipe(browserSync.reload({
       stream: true
     }));
-
-})
-
+});
 
 //Copy fonts
 gulp.task('copyFonts', function () {
@@ -98,25 +83,15 @@ gulp.task('copyFonts', function () {
     .pipe(gulp.dest(path.production + "/fonts"));
 });
 
-//Concat and uglify js for Production
+//Concat and uglify js
 gulp.task('compressJs', function () {
+
   return gulp.src([path.js + '/vendor/*.js', path.tmp + '/*.js', path.js + '/*.js'])
     .pipe(concat('main.js'))
     .pipe(babel({
       presets: ['es2015']
     }))
     .pipe(uglify())
-    .pipe(gulp.dest(path.production + '/js'));
-});
-
-gulp.task('serveJs', function () {
-  return gulp.src([path.js + '/vendor/*.js', path.tmp + '/*.js', path.js + '/*.js'])
-    .pipe(sourcemaps.init())
-    .pipe(concat('main.js'))
-    .pipe(babel({
-      presets: ['es2015']
-    }))
-    .pipe(sourcemaps.write())
     .pipe(gulp.dest(path.production + '/js'))
     .pipe(browserSync.stream());
 });
@@ -140,15 +115,16 @@ gulp.task('compressImg', function () {
 });
 
 // Static Server + watching less/html files
-gulp.task('serve', ['serveCSS', 'serveJs'], function () {
+gulp.task('serve', ['compresCss', 'compressJs'], function () {
+
   browserSync.init({
     server: "./app"
   });
+
   gulp.watch(path.sass + '/*.scss', ['compresCss']);
   gulp.watch([path.js + '/**/*.js', path.js + '/**/*.es6'], ['js-watch']);
   //gulp.watch(path.js + '/*.es6', ['js-watch']);
   gulp.watch("app/*.html").on('change', browserSync.reload);
-
 });
 
 //SSH deployment
