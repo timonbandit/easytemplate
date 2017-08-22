@@ -87,6 +87,9 @@ gulp.task('copyFonts', function () {
 gulp.task('compressJs', function () {
 
   return gulp.src([path.js + '/vendor/*.js', path.tmp + '/*.js', path.js + '/*.js'])
+    .pipe(plumber({
+      errorHandler: onError
+    }))
     .pipe(concat('main.js'))
     .pipe(babel({
       presets: ['es2015']
