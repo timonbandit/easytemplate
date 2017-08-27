@@ -105,7 +105,7 @@ gulp.task('js-watch', ['compressJs'], browserSync.reload);
 
 //Compress images
 gulp.task('compressImg', function () {
-  return gulp.src(path.images + '/*')
+  return gulp.src(path.images + '/**/*')
     .pipe(imagemin({
       progressive: true,
       optimizationLevel: 7,
