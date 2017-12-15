@@ -11,6 +11,7 @@ var scp = require('gulp-scp2');
 var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var babel = require('gulp-babel');
+var gh_pages = require('gh-pages');
 
 
 var del = require('del');
@@ -129,6 +130,17 @@ gulp.task('serve', ['compresCss', 'compressJs'], function () {
   //gulp.watch(path.js + '/*.es6', ['js-watch']);
   gulp.watch("app/*.html").on('change', browserSync.reload);
 });
+
+//GitHub pages publish
+gulp.task('publish', ['full'], function () {
+  gh_pages.publish('app', {
+    src: ['index.html', 'build/**'],
+    message: 'GH Page updated'
+  }, function (err) {
+    console.log(err);
+  });
+});
+
 
 //SSH deployment
 gulp.task('deploy', function () {

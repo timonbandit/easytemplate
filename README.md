@@ -9,6 +9,7 @@ Gulp has 4 main tasks
   - `gulp serve` (Task for creating a server with livereload)
   - `gulp full` (Task for full build, include image compression and etc.)
   - `gulp deploy` (For deployment via SSH, you need to set host, login/pass and path in gulpfile.js)
+  - `gulp publish` (For publishing app folder, exclude `src`, to your GitHub Pages. Need to have repository. [Read more here - gh-pages](https://github.com/tschaub/gh-pages))
   
   Including:
   - LiveReload
@@ -17,3 +18,4 @@ Gulp has 4 main tasks
   - Compressing CSS (csso)
   - Vendor prefixes in CSS (autoprefix)
   - Babel
+  - [gh-pages](https://github.com/tschaub/gh-pages)
