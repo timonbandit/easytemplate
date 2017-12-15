@@ -3,7 +3,7 @@ Quick start template based on simple BoilerPlate + Bootstrap + Sass + Gulp + Bab
 Easy HTML Sceleton based on simple BoilerPlate, Bootstrap and Sass with Gulp.
 
 
-Gulp has 4 main tasks
+Gulp has 5 main tasks:
 
   - `gulp` (Default task for development - compile js and less)
   - `gulp serve` (Task for creating a server with livereload)
