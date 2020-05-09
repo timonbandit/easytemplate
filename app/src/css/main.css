@@ -1,0 +1,45 @@
+.no-gutter > [class*='col-'] {
+  padding-right: 0;
+  padding-left: 0; }
+
+html {
+  font-size: 62.5%;
+  color: #000;
+  text-rendering: optimizelegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -moz-font-feature-settings: "liga", "kern";
+  letter-spacing: -0.5px;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0; }
+
+body {
+  font-size: 1.8rem;
+  color: #2a303d; }
+
+body {
+  background: #EEE; }
+
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #FFF;
+  padding: 30px 15px;
+  box-shadow: 0 0 3px rgba(0, 0, 10, 0.3); }
+  .main img {
+    max-width: 100%; }
+
+/*Responsive start*/
+/*UltraLarge screens start*/
+/*UltraLarge screens stop*/
+/*Large screens*/
+/*Laptops*/
+/*Tablet*/
+/*Tablet Stop*/
+/*Small devices Start*/
+/*Small devices Stop*/
+/*Phone Start*/
+/*Pages stop*/
+/*Phone Stop*/
+/*small phone start*/
+/*small phone stop*/
+/*Responsive stop*/

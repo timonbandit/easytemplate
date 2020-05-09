@@ -1,32 +1,13 @@
-var gulp = require('gulp');
-var concat = require('gulp-concat');
-var csso = require('gulp-csso');
-var uglify = require('gulp-uglify');
-var imagemin = require('gulp-imagemin');
-var pngquant = require('imagemin-pngquant');
-var optipng = require('imagemin-optipng');
-var plumber = require('gulp-plumber');
-var browserSync = require('browser-sync').create();
-var scp = require('gulp-scp2');
-var sass = require('gulp-sass');
-var autoprefixer = require('gulp-autoprefixer');
-var babel = require('gulp-babel');
-var gh_pages = require('gh-pages');
-
-
-var del = require('del');
-
-
-// error function for plumber
-var onError = function (err) {
-  console.log(err);
-  this.emit('end');
-};
+const {series, parallel, src, dest, watch} = require('gulp');
+const del = require("del");
+const sass = require("gulp-sass");
+const postcss = require("gulp-postcss");
+const browserSync = require('browser-sync').create();
 
 //Pathes
 var path = {
   css: 'app/src/css',
-  sass: 'app/src/sass',
+  scss: 'app/src/scss',
   js: 'app/src/js',
   fonts: 'app/src/fonts',
   images: 'app/src/img',
@@ -34,132 +15,57 @@ var path = {
   production: 'app/build'
 };
 
-//Clean for development purposes
-gulp.task('clean', function (cb) {
+function onError(err) {
+  console.log(err);
+  this.emit
+}
+
+function cleanDev(cb) {
   del(path.css + '/main.css');
   del(path.production + '/css/*');
   cb();
+}
 
-});
-
-//Clean all production folder
-gulp.task('cleanFull', function (cb) {
+function cleanFull(cb) {
   del(path.css + '/main.css');
   del(path.production + '/*');
   del(path.tmp + "/*");
   cb();
+}
 
-});
+function scss() {
+  return src(path.scss + '/main.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(dest(path.css));
+}
 
-//compile sass
-gulp.task('sass', ['clean'], function () {
+function buildCSS(cb) {
+  return src(path.css + '/*.css')
+    .pipe(postcss())
+    .pipe(dest(path.production + '/css'))
+    .pipe(browserSync.stream())
+}
 
-  return gulp.src(path.sass + '/main.scss')
-    .pipe(plumber({
-      errorHandler: onError
-    }))
-    .pipe(sass())
-    .pipe(gulp.dest(path.css));
-});
+function reload() {
+  browserSync.reload();
+}
 
-//Concat and compress css
-gulp.task('compresCss', ['sass'], function () {
-
-  return gulp.src(path.css + '/*.css')
-    .pipe(concat('style.css'))
-    .pipe(autoprefixer({
-      browsers: ['>1%', 'ie 9'],
-      cascade: false
-    }))
-    .pipe(csso())
-    .pipe(gulp.dest(path.production + '/css'))
-    .pipe(browserSync.reload({
-      stream: true
-    }));
-});
-
-//Copy fonts
-gulp.task('copyFonts', function () {
-  return gulp.src(path.fonts + '/*')
-    .pipe(gulp.dest(path.production + "/fonts"));
-});
-
-//Concat and uglify js
-gulp.task('compressJs', function () {
-
-  return gulp.src([path.js + '/vendor/*.js', path.tmp + '/*.js', path.js + '/*.js'])
-    .pipe(plumber({
-      errorHandler: onError
-    }))
-    .pipe(concat('main.js'))
-    .pipe(babel({
-      presets: ['es2015']
-    }))
-    .pipe(uglify())
-    .pipe(gulp.dest(path.production + '/js'))
-    .pipe(browserSync.stream());
-});
-
-// create a task that ensures the `js` task is complete before
-// reloading browsers
-gulp.task('js-watch', ['compressJs'], browserSync.reload);
-
-//Compress images
-gulp.task('compressImg', function () {
-  return gulp.src(path.images + '/**/*')
-    .pipe(imagemin({
-      progressive: true,
-      optimizationLevel: 7,
-      svgoPlugins: [{
-        removeViewBox: false
-      }],
-      use: [pngquant()]
-    }))
-    .pipe(gulp.dest(path.production + '/img'));
-});
-
-// Static Server + watching less/html files
-gulp.task('serve', ['compresCss', 'compressJs'], function () {
-
+function serve(done) {
   browserSync.init({
-    server: "./app"
+    server: {
+      baseDir: './app'
+    }
   });
+  done();
+}
 
-  gulp.watch(path.sass + '/*.scss', ['compresCss']);
-  gulp.watch([path.js + '/**/*.js', path.js + '/**/*.es6'], ['js-watch']);
-  //gulp.watch(path.js + '/*.es6', ['js-watch']);
-  gulp.watch("app/*.html").on('change', browserSync.reload);
-});
+function watchFiles(done) {
+  watch(path.scss + '/*.scss', series(cleanDev, scss, buildCSS));
+  //watch([path.js + '/**/*.js'], series(buildJS, reload));
 
-//GitHub pages publish
-gulp.task('publish', ['full'], function () {
-  gh_pages.publish('app', {
-    src: ['index.html', 'build/**'],
-    message: 'GH Page updated'
-  }, function (err) {
-    console.log(err);
-  });
-});
+  watch("app/*.html").on('change', reload);
+  done();
+}
 
-
-//SSH deployment
-gulp.task('deploy', function () {
-  return gulp.src('app/**/*')
-    .pipe(scp({
-      host: 'hostname.example',
-      port: '22',
-      username: 'user',
-      password: 'pass',
-      dest: '/var/www/website'
-
-    })).on('error', function (err) {
-      console.log(err);
-    });
-});
-
-
-//Full build task - run 'grunt full'
-gulp.task('full', ['cleanFull', 'compresCss', 'copyFonts', 'compressJs', 'compressImg']);
-
-//default
-gulp.task('default', ['compresCss', 'compressJs']);
+exports.default = series(cleanDev, scss, buildCSS);
+exports.dev = series(cleanDev, scss, buildCSS, watchFiles, serve);
