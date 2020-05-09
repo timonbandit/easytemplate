@@ -4,7 +4,7 @@
   "description": "Quick start template based on simple BoilerPlate + Bootstrap + Scss + Gulp",
   "main": "index.html",
   "scripts": {
-    "start": "gulp"
+    "dev": "gulp dev"
   },
   "repository": {
     "type": "git",
