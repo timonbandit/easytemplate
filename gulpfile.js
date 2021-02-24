@@ -2,7 +2,13 @@ const {series, parallel, src, dest, watch} = require('gulp');
 const del = require("del");
 const sass = require("gulp-sass");
 const postcss = require("gulp-postcss");
+const browserify = require("browserify");
 const browserSync = require('browser-sync').create();
+const source = require('vinyl-source-stream');
+const plumber = require('gulp-plumber');
+const notifier = require('node-notifier');
+const {build} = require('esbuild')
+
 
 //Pathes
 var path = {
@@ -16,8 +22,12 @@ var path = {
 };
 
 function onError(err) {
-  console.log(err);
-  this.emit
+  console.log(err.stderr);
+  notifier.notify({
+    title: 'Compilation Error',
+    message: err.stderr,
+    sound: true,
+  });
 }
 
 function cleanDev(cb) {
@@ -46,6 +56,27 @@ function buildCSS(cb) {
     .pipe(browserSync.stream())
 }
 
+function buildJS(cb) {
+  const options = {
+    entryPoints: [path.js + "/index.js"],
+    outfile: [path.production + "/js/index.js"],
+    bundle: true
+  }
+
+  return build(options)
+    .then(() => {
+      notifier.notify({
+        title: 'Success',
+        message: "JS Compilation complete"
+      });
+
+      browserSync.reload(path.production + "/js/index.js")
+    }).catch(err => {
+      onError(err);
+    });
+
+}
+
 function reload() {
   browserSync.reload();
 }
@@ -61,11 +92,19 @@ function serve(done) {
 
 function watchFiles(done) {
   watch(path.scss + '/*.scss', series(cleanDev, scss, buildCSS));
-  //watch([path.js + '/**/*.js'], series(buildJS, reload));
+  watch([path.js + '/**/*.js'], series(buildJS));
 
   watch("app/*.html").on('change', reload);
   done();
 }
 
+function notify(done) {
+  notifier.notify({
+    title: 'Success',
+    message: "Compilation complete"
+  });
+  done()
+}
+
 exports.default = series(cleanDev, scss, buildCSS);
-exports.dev = series(cleanDev, scss, buildCSS, watchFiles, serve);
+exports.dev = series(cleanDev, scss, buildCSS, buildJS, watchFiles, notify, serve);

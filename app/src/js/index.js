@@ -1,4 +1,5 @@
 'use strict';
+
 $(document).ready(function () {
 
 	// Scroll to top
@@ -17,5 +18,5 @@ $(document).ready(function () {
 			}, 200);
 			return false;
 		});
-	}	
+	}
 });
