@@ -8,10 +8,13 @@ const source = require('vinyl-source-stream');
 const plumber = require('gulp-plumber');
 const notifier = require('node-notifier');
 const {build} = require('esbuild')
+const imagemin = require('gulp-imagemin');
+const pngquant = require('imagemin-pngquant');
 
 
 //Pathes
 var path = {
+  src: 'app/src',
   css: 'app/src/css',
   scss: 'app/src/scss',
   js: 'app/src/js',
@@ -91,10 +94,11 @@ function serve(done) {
 }
 
 function watchFiles(done) {
-  watch(path.scss + '/*.scss', series(cleanDev, scss, buildCSS));
+  watch(path.scss + '/**/*.scss', series(cleanDev, scss, buildCSS));
   watch([path.js + '/**/*.js'], series(buildJS));
-
-  watch("app/*.html").on('change', reload);
+  watch([path.src + '/**/*.html'], series(copyHtml));
+  
+  watch("app/**/*.html").on('change', reload);
   done();
 }
 
@@ -106,5 +110,32 @@ function notify(done) {
   done()
 }
 
+
+
+function compressImg() {
+  return src(path.images + '/**/*')
+      .pipe(imagemin({
+        progressive: true,
+        optimizationLevel: 7,
+        svgoPlugins: [{
+          removeViewBox: false
+        }],
+        use: [pngquant()]
+      }))
+      .pipe(dest(path.production + '/img'));
+}
+
+function copyFonts() {
+  return src(path.fonts + '/**/*')
+    .pipe(dest(path.production + "/fonts"));
+}
+
+function copyHtml() {
+  return src(path.src + '/**/*.html')
+    .pipe(dest(path.production));
+}
+
 exports.default = series(cleanDev, scss, buildCSS);
 exports.dev = series(cleanDev, scss, buildCSS, buildJS, watchFiles, notify, serve);
+
+exports.BuildProd = series(cleanFull, scss, buildCSS, buildJS, compressImg, copyFonts, copyHtml);
